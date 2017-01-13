@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pick">
+  <select id="selectPick" parameterType="int" resultType="map">
+	SELECT p.title, p.description, p.img,
+		   e.editor_name AS editorName,
+	       e.editor_pic AS editorPic
+	  FROM tbl_pick AS p, tbl_editor AS e
+	 WHERE p.editor_id = e.editor_id
+	 LIMIT #{count}
+  </select>
+  
+</mapper>
