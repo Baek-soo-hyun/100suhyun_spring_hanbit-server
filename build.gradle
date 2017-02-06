@@ -35,6 +35,9 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-jdbc')
 	compile('org.springframework.boot:spring-boot-starter-mustache')
 	
+	compile group: 'org.springframework.security', name: 'spring-security-core', version: '4.2.1.RELEASE'
+	
+	
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
 	
 	compile group: 'org.mybatis', name: 'mybatis', version: '3.4.2'
