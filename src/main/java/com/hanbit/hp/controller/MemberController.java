@@ -59,6 +59,7 @@ public class MemberController {
 	public Map signin(@RequestParam("userId") String userId,
 			@RequestParam("userPw") String userPw,
 			HttpServletRequest request) {
+			//HttpServletRequest API는 Http servlet의 요청에 응답하는 API이다.
 		
 		try {
 			if(!memberService.isValidMember(userId, userPw)) {
@@ -71,9 +72,13 @@ public class MemberController {
 		
 		//로그인 세션 저장//
 		HttpSession session = request.getSession();
+		//HttpSession은 servlet API의 인터페이스이다. 유저가 페이지를 이동하는 동안 유저를 식별하고 정보를 저장하는 기능을 가진다.
+		//getsession()는 HttpServletRequest API의 함수이다. 현재 세션 정보를 리턴하는 함수이다.
 		
 		String uid = memberService.getUid(userId);
 		
+		//setAttribute() 함수란? "signedIn"을 "true"로 바꿔주는 것 //
+		//즉, 새로운 속성을 부여하거나, 기존의 속성을 특정 속성으로 변경하는 함수
 		session.setAttribute("signedIn", true);
 		session.setAttribute("uid", uid);
 		session.setAttribute("userId", userId);
@@ -86,13 +91,14 @@ public class MemberController {
 	
 	@RequestMapping("/api2/member/signedin")
 	@ResponseBody
-
 	public Map signedin(HttpSession session) {
 		Map result = new HashMap();
 		String signedIn = "no";		
 		
 		if (session.getAttribute("signedIn") != null &&
 				(Boolean) session.getAttribute("signedIn")) {
+			//getAttribute() 함수는 어떤 요소의 특정 속성 값(setAttribute() 함수로 세팅된 속성값)을 리턴하는 함수이다.
+			
 			signedIn = "yes";
 			
 			result.put("userId", session.getAttribute("userId"));
@@ -131,6 +137,7 @@ public class MemberController {
 	public Map signout(HttpSession session) {
 		
 		session.invalidate();
+		//session 인터페이스의 invalidate() 함수를 호출하면, 세션을 무효화 한다.
 		
 		Map result = new HashMap();
 		result.put("result", "ok");

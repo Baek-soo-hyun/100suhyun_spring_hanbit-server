@@ -25,10 +25,10 @@ public class MybatisDatabaseConfig {
 	public DataSource dataSource() {
 		DataSource dataSource = new DataSource();
 		dataSource.setDriverClassName(Driver.class.getName());
-		dataSource.setUrl("jdbc:mysql://localhost:3306/hanbit");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/hanbit"); //스키마명
 		dataSource.setConnectionProperties("characterEncoding=utf8;");
-		dataSource.setUsername("hanbit");
-		dataSource.setPassword("hanbit");
+		dataSource.setUsername("hanbit"); //유저명
+		dataSource.setPassword("hanbit"); //유저명
 		
 		return dataSource;
 	}

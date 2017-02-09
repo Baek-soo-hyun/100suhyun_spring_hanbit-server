@@ -30,7 +30,9 @@ public class MemberService {
 	
 	public String addMember(String userId, String userPw) {
 		String uid = generateKey("UID");
-		String encryptedUserPw = passwordEncoder.encode(userPw);
+		String encryptedUserPw = passwordEncoder.encode(userPw); 
+		//springframework.security 플러그인의 passwordEncoder API의 encode() 함수를 사용해서 자동으로 비밀번호를 암호화함
+		//나중에 raw 비번이 암호화된 비번이랑 같은지 확인하는 건 	matches(CharSequence rawPassword, String encodedPassword)함수를 사용하면 된다. (리턴타입 : boolean)
 		
 		memberDAO.insertMember(uid, userId, encryptedUserPw);
 		
