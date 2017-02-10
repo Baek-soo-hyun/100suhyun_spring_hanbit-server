@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,8 @@ import com.hanbit.hp.service.MemberService;
 
 @Controller //스프링에서 컨트롤러라고 인식하게 하는 것
 public class MemberController {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(MemberController.class);
 	
 	//mysql에 DB를 저장하기 위해서
 	@Autowired
@@ -63,6 +67,8 @@ public class MemberController {
 		
 		try {
 			if(!memberService.isValidMember(userId, userPw)) {
+				LOGGER.warn("패스워드 틀림 : " + userId + " / " + userPw);
+				//유저가 패스워드를 틀릴 경우, 로거를 남김
 				throw new RuntimeException("패스워드가 다릅니다.");
 			}
 		}
