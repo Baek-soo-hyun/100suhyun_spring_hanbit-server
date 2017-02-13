@@ -21,7 +21,7 @@ public class WelcomeController {
 	
 	
 	
-	@RequestMapping("/")
+	@RequestMapping("/welcome")
 	@ResponseBody
 	public Map welcome() {
 		Map welcome = new HashMap();
