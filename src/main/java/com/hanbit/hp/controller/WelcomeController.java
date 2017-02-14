@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hanbit.hp.annotation.SignInRequired;
+
 @Controller
 public class WelcomeController {
 	
@@ -23,7 +25,9 @@ public class WelcomeController {
 	
 	@RequestMapping("/welcome")
 	@ResponseBody
+	@SignInRequired //우리가 만들어준 어노테이션
 	public Map welcome() {
+		
 		Map welcome = new HashMap();
 		welcome.put("msg", "Hello, Hanbit Plate");
 		

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hanbit.hp.annotation.SignInRequired;
 import com.hanbit.hp.service.MemberService;
 
 @Controller //스프링에서 컨트롤러라고 인식하게 하는 것
@@ -119,14 +120,11 @@ public class MemberController {
 	//회원정보 수정
 	@RequestMapping(value="/api2/member/update", method=RequestMethod.POST)
 	@ResponseBody
+	@SignInRequired //로그인 한 상태에서 실행되어야 하는 함수니까
 	public Map update(@RequestParam("userPw") String userPw,
 			HttpSession session) {
 		
 		String uid = (String) session.getAttribute("uid");
-		
-		if (StringUtils.isBlank(uid)) {
-			throw new RuntimeException("로그인이 필요합니다.");
-		}
 		
 		memberService.modifyMember(uid, userPw);
 		
