@@ -1,0 +1,49 @@
+[{
+    "img": "img/main_section03_01.jpg",
+    "name": "한빛골",
+    "score": 3.5,
+    "location": "신촌",
+    "category": "한식"
+}, {
+    "img": "img/main_section03_02.jpg",
+    "name": "꽃게상회",
+    "score": 3.9,
+    "location": "강남",
+    "category": "한식"
+}, {
+	"img": "img/main_section03_03.jpg",
+    "name": "고기좋아",
+    "score": 4.8,
+    "location": "홍대",
+    "category": "양식"
+}, {
+	"img": "img/main_section03_04.jpg",
+    "name": "돌돌말아",
+    "score": 4.1,
+    "location": "마포",
+    "category": "분식"
+}, {
+	"img": "img/main_section03_05.jpg",
+    "name": "지글지글",
+    "score": 3.2,
+    "location": "역삼",
+    "category": "한식"
+}, {
+	"img": "img/main_section03_06.jpg",
+    "name": "오른손으로비비고왼손으로비비고",
+    "score": 3.9,
+    "location": "이태원",
+    "category": "한식"
+}, {
+	"img": "img/main_section03_07.jpg",
+    "name": "치즈덕후",
+    "score": 4.9,
+    "location": "목동",
+    "category": "양식"
+}, {
+	"img": "img/main_section03_08.jpg",
+    "name": "복주머니",
+    "score": 3.1,
+        "location": "종로",
+    "category": "중식"
+}]

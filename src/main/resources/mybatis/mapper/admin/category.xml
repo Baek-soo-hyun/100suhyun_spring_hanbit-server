@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin.category">
+  <select id="selectList" resultType="map">
+		SELECT c.category_id, c.category_name,
+		       COUNT(s.category_id) stores
+		  FROM tbl_category c LEFT OUTER JOIN tbl_store s
+		    ON c.category_id = s.category_id
+		 GROUP BY c.category_id
+		 ORDER BY category_name
+	</select>
+	
+  	<insert id="insert" parameterType="map">
+  		INSERT INTO tbl_category
+  			(category_id, category_name)
+  		VALUES
+  			(#{categoryId}, #{categoryName})
+ 	 </insert>
+  
+</mapper>
