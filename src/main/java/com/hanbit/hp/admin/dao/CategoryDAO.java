@@ -18,6 +18,22 @@ public class CategoryDAO {
 		return sqlSession.selectList("admin.category.selectList");
 	}
 	
+	public Map selectOne(String categoryId) {
+		return sqlSession.selectOne("admin.category.selectOne", categoryId);
+	}
+	
+	public int update(String categoryId, String categoryName) {
+		Map param = new HashMap();
+		param.put("categoryId", categoryId);
+		param.put("categoryName", categoryName);
+		
+		return sqlSession.insert("admin.category.update", param);
+	}
+	
+	public int delete(String categoryId) {
+		return sqlSession.insert("admin.category.delete", categoryId);
+	}
+	
 	public int insert(String categoryId, String categoryName) {
 		Map param = new HashMap();
 		param.put("categoryId", categoryId);

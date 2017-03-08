@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin.location">
+  	<select id="selectList" resultType="map">
+		SELECT c.location_id, c.location_name,
+		       COUNT(s.location_id) stores
+		  FROM tbl_location c LEFT OUTER JOIN tbl_store s
+		    ON c.location_id = s.location_id
+		 GROUP BY c.location_id
+		 ORDER BY location_name
+	</select>
+	
+	<select id="selectOne" parameterType="string" resultType="map">
+		SELECT location_id, location_name
+		  FROM tbl_location
+		 WHERE location_id = #{locationId}
+	</select>
+	
+	<update id="update" parameterType="map">
+		UPDATE tbl_location
+		   SET location_name = #{locationName}
+		 WHERE location_id = #{locationId}
+	</update>
+	
+	<delete id="delete" parameterType="string">
+		DELETE FROM tbl_location
+		 WHERE location_id = #{locationId}
+	</delete>
+	
+  	<insert id="insert" parameterType="map">
+  		INSERT INTO tbl_location
+  			(location_id, location_name)
+  		VALUES
+  			(#{locationId}, #{locationName})
+ 	</insert>
+  
+</mapper>

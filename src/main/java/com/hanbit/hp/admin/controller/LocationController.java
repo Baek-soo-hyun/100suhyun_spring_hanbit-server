@@ -11,24 +11,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hanbit.hp.admin.service.CategoryService;
+import com.hanbit.hp.admin.service.LocationService;
 
 @RestController
-@RequestMapping("/admin/api/category")
-public class CategoryController {
+@RequestMapping("/admin/api/location")
+public class LocationController {
 	
 	@Autowired
-	private CategoryService categoryService;
+	private LocationService locationService;
 	
 	@RequestMapping("/list")
 	public List list() {
-		return categoryService.getList();
+		return locationService.getList();
 	}
 	
 
 	@RequestMapping("/add")
-	public Map add(@RequestParam("categoryName") String categoryName) {
-		categoryService.add(categoryName);
+	public Map add(@RequestParam("locationName") String locationName) {
+		locationService.add(locationName);
 		
 		Map result = new HashMap();
 		result.put(result, "ok");
@@ -36,18 +36,18 @@ public class CategoryController {
 		return result;
 	}
 	
-	@RequestMapping(value="/{categoryId}", method=RequestMethod.GET)
-	public Map get(@PathVariable("categoryId") String categoryId) {
+	@RequestMapping(value="/{locationId}", method=RequestMethod.GET)
+	public Map get(@PathVariable("locationId") String locationId) {
 		
-		return categoryService.get(categoryId);
+		return locationService.get(locationId);
 	}
 	
 	
-	@RequestMapping(value="/{categoryId}", method=RequestMethod.PUT)
-	public Map modify(@PathVariable("categoryId") String categoryId,
-			@RequestParam("categoryName") String categoryName) {
+	@RequestMapping(value="/{locationId}", method=RequestMethod.PUT)
+	public Map modify(@PathVariable("locationId") String locationId,
+			@RequestParam("locationName") String locationName) {
 		
-		categoryService.modify(categoryId, categoryName);
+		locationService.modify(locationId, locationName);
 		
 		Map result = new HashMap();
 		result.put(result, "ok");
@@ -55,10 +55,10 @@ public class CategoryController {
 		return result;
 	}
 	
-	@RequestMapping(value="/{categoryId}", method=RequestMethod.DELETE)
-	public Map remove(@PathVariable("categoryId") String categoryId) {
+	@RequestMapping(value="/{locationId}", method=RequestMethod.DELETE)
+	public Map remove(@PathVariable("locationId") String locationId) {
 		
-		categoryService.remove(categoryId);
+		locationService.remove(locationId);
 		
 		Map result = new HashMap();
 		result.put(result, "ok");

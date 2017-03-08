@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="admin.category">
-  <select id="selectList" resultType="map">
+  	<select id="selectList" resultType="map">
 		SELECT c.category_id, c.category_name,
 		       COUNT(s.category_id) stores
 		  FROM tbl_category c LEFT OUTER JOIN tbl_store s
@@ -12,11 +12,28 @@
 		 ORDER BY category_name
 	</select>
 	
+	<select id="selectOne" parameterType="string" resultType="map">
+		SELECT category_id, category_name
+		  FROM tbl_category
+		 WHERE category_id = #{categoryId}
+	</select>
+	
+	<update id="update" parameterType="map">
+		UPDATE tbl_category
+		   SET category_name = #{categoryName}
+		 WHERE category_id = #{categoryId}
+	</update>
+	
+	<delete id="delete" parameterType="string">
+		DELETE FROM tbl_category
+		 WHERE category_id = #{categoryId}
+	</delete>
+	
   	<insert id="insert" parameterType="map">
   		INSERT INTO tbl_category
   			(category_id, category_name)
   		VALUES
   			(#{categoryId}, #{categoryName})
- 	 </insert>
+ 	</insert>
   
 </mapper>

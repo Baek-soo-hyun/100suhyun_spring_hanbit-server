@@ -56,7 +56,7 @@ header {
 
 .admin-title {
 	position: relative;
-	margin-top: 19px;
+	margin-top: 7px;
 	padding: 0px 10px;
 	border-left: solid 5px #ff5722;
 	font-size: 16px;
@@ -82,6 +82,10 @@ section {
 .admin-add,
 .admin-update {
 	display: none;
+}
+
+.admin-list table>tbody>tr {
+	cursor:pointer;
 }
 
 .admin-buttons {

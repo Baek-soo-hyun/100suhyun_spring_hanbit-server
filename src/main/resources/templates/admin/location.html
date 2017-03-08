@@ -1,3 +1,46 @@
 {{> admin/header}}
 <div class="admin-title">지역 관리</div>
+<section class="admin-list">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>번호</th>
+				<th>지역명</th>
+				<th>지역ID</th>
+				<th>맛집수</th>
+			</tr>
+		</thead>
+		<tbody>
+			
+		</tbody>
+	</table>
+	<div class="admin-buttons">
+		<button class="btn-admin-add btn btn-success">지역 추가</button>
+	</div>
+</section>
+<section class="admin-add">
+	<div class="form-group">
+		<label for="add-location_name">지역</label>
+		<input type="text" class="form-control" id="add-location_name" placeholder="지역명">
+	</div>
+	<div class="admin-buttons">
+		<button class="btn-admin-save btn btn-success">저장</button>
+		<button class="btn-admin-cancel btn btn-default">취소</button>
+	</div>	
+</section>
+<section class="admin-update">
+	<div class="form-group">
+		<label for="upt-location_id">지역ID</label>
+		<input type="text" class="form-control" id="upt-location_id" disabled>
+	</div>
+	<div class="form-group">
+		<label for="upt-location_name">지역명</label>
+		<input type="text" class="form-control" id="upt-location_name" placeholder="지역명">
+	</div>
+	<div class="admin-buttons">
+		<button class="btn-admin-update btn btn-success">수정</button>
+		<button class="btn-admin-delete btn btn-danger">삭제</button>
+		<button class="btn-admin-cancel btn btn-default">취소</button>
+	</div>	
+</section>
 {{> admin/footer}}
