@@ -1,1 +1,5 @@
 @import 'common.css';
+
+.btn-admin-file img {
+	max-width: 200px;
+}

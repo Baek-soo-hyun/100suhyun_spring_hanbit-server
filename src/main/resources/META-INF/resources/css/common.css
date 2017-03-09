@@ -8,6 +8,10 @@ ul {
 	padding: 0;
 }
 
+.block {
+	display: block;
+}
+
 header {
 	position: fixed;
 	width: 100%;
