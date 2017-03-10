@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="file">
+  
+	<insert id="insert" parameterType="map">
+		INSERT INTO tbl_file
+			(file_id, file_type, file_size, file_name)
+		VALUES
+			(#{fileId}, #{fileType}, #{fileSize}, #{fileName})
+	</insert>
+	
+	<select id="selectOne" parameterType="String" resultType="map">
+		SELECT file_id, file_type, file_size, file_name
+		  FROM tbl_file
+		 WHERE file_id = #{fileId}
+	</select>
+  
+</mapper>
