@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -25,8 +26,17 @@ public class StoreController {
 	private StoreService storeService;
 	
 	@RequestMapping("/list")
-	public List getList() {
-		return storeService.getList();
+	public Map getList(@RequestParam("page") int page,
+			@RequestParam("rowsPerPage") int rowsPerPage) {
+		
+		List list = storeService.getList(page, rowsPerPage);
+		int count = storeService.count();
+		
+		Map result = new HashMap();
+		result.put("list", list);
+		result.put("count", count);
+
+		return result;
 	}
 	
 	@RequestMapping(value="/add", method=RequestMethod.POST)

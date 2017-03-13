@@ -14,8 +14,16 @@ public class StoreDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public List selectList() {
-		return sqlSession.selectList("admin.store.selectList");
+	public List selectList(int currentPage, int rowsPerPage) {
+		Map param = new HashMap();
+		param.put("firstIndex", (currentPage - 1) * rowsPerPage);
+		param.put("rowsPerPage", rowsPerPage);
+		
+		return sqlSession.selectList("admin.store.selectList", param);
+	}
+	
+	public int count() {
+		return sqlSession.selectOne("admin.store.count");
 	}
 	
 	public int insert(String storeId, String storeName,

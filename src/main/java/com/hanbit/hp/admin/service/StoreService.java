@@ -22,8 +22,12 @@ public class StoreService {
 	@Autowired
 	private StoreDAO storeDAO;
 	
-	public List getList() {
-		return storeDAO.selectList();
+	public List getList(int page, int rowsPerPage) {
+		return storeDAO.selectList(page, rowsPerPage);
+	}
+	
+	public int count() {
+		return storeDAO.count();
 	}
 
 	// 자동 rollback을 위해서 @Transactional을 걸어준다.

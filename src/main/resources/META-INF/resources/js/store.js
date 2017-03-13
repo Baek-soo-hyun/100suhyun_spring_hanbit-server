@@ -4,10 +4,13 @@ require([
 	var common = require("common");
 	
 	var currentStore = {};
+	var rowsPerPage = 2;
+	var pagesPerPaging = 3;
+	var currentPage = 1;
 	
 	var handler = function(section, jqElement) {
 		if (section === ".admin-list") {
-			loadList();
+			loadList(currentPage);
 		}
 		else if (section === ".admin-add") {
 			$("#add-store_name").val("");
@@ -75,10 +78,19 @@ require([
 		}
 	};
 	
-	function loadList() {
+	function loadList(page) {
+		currentPage = page;
+		
 		$.ajax({
 			url: "/admin/api/store/list",
-			success: function(list) {
+			data: {
+				page: page,
+				rowsPerPage: rowsPerPage,
+			},
+			success: function(result) {
+				var list = result.list;
+				var count = result.count;
+				
 				var itemHTML = "";
 				
 				for (var i=0; i<list.length; i++) {
@@ -96,6 +108,52 @@ require([
 				$(".admin-list table>tbody").html(itemHTML);
 				$(".admin-list table>tbody>tr").on("click", function() {
 					// common.showSection(".admin-update", $(this), handler);
+				});
+				
+				// for Paging
+				var firstPage = 1;
+				var lastPage = parseInt(count / rowsPerPage)
+					+ (count % rowsPerPage === 0 ? 0 : 1);
+				
+				var pagingHTML = "";
+				
+				pagingHTML += "<li page='" + firstPage + "'>";
+				pagingHTML += "<a href='#'><i class='fa fa-fw fa-fast-backward'></i></a></li>";
+				
+				var startPage = parseInt((currentPage-1) / pagesPerPaging)
+					* pagesPerPaging + 1;
+				var endPage = Math.min(startPage + (pagesPerPaging - 1), lastPage);
+				
+				if (startPage > 1) {
+					pagingHTML += "<li page='" + (startPage - 1) + "'>";
+					pagingHTML += "<a href='#'><i class='fa fa-fw fa-step-backward'></i></a></li>";
+				}
+				
+				for (var i=startPage; i<=endPage; i++) {
+					pagingHTML += "<li page='" + i + "'";
+					
+					if (i === currentPage) {
+						pagingHTML += " class='active'";
+					}
+					
+					pagingHTML += "><a href='#'>" + i + "</a></li>";
+				}
+				
+				if (endPage < lastPage) {
+					pagingHTML += "<li page='" + (endPage + 1) + "'>";
+					pagingHTML += "<a href='#'><i class='fa fa-fw fa-step-forward'></i></a></li>";
+				}
+				
+				pagingHTML += "<li page='" + lastPage + "'>";
+				pagingHTML += "<a href='#'><i class='fa fa-fw fa-fast-forward'></i></a></li>";
+				
+				$(".admin-paging").html(pagingHTML);
+				$(".admin-paging>li>a").on("click", function(event) {
+					event.preventDefault();
+					
+					var page = parseInt($(this).parent("li").attr("page"));
+					
+					loadList(page);
 				});
 			},
 		});
@@ -149,3 +207,4 @@ require([
 	
 	common.initMgmt(handler);
 });
+
