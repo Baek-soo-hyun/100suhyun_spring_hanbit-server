@@ -14,9 +14,9 @@ public class StoreDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public List selectList(int currentPage, int rowsPerPage) {
+	public List selectList(int page, int rowsPerPage) {
 		Map param = new HashMap();
-		param.put("firstIndex", (currentPage - 1) * rowsPerPage);
+		param.put("firstIndex", (page - 1) * rowsPerPage);
 		param.put("rowsPerPage", rowsPerPage);
 		
 		return sqlSession.selectList("admin.store.selectList", param);
@@ -24,6 +24,22 @@ public class StoreDAO {
 	
 	public int count() {
 		return sqlSession.selectOne("admin.store.count");
+	}
+	
+	public Map selectOne(String storeId) {
+		return sqlSession.selectOne("admin.store.selectOne", storeId);
+	}
+	
+	public int update(String storeId, String storeName,
+			String categoryId, String locationId) {
+		
+		Map param = new HashMap();
+		param.put("storeId", storeId);
+		param.put("storeName", storeName);
+		param.put("categoryId", categoryId);
+		param.put("locationId", locationId);
+		
+		return sqlSession.insert("admin.store.update", param);
 	}
 	
 	public int insert(String storeId, String storeName,

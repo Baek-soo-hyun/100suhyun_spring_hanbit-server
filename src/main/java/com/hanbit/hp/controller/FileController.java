@@ -19,8 +19,6 @@ import com.hanbit.hp.service.FileService;
 @Controller
 public class FileController {
 	
-
-	
 	@Autowired
 	private FileService fileService;
 
@@ -28,17 +26,17 @@ public class FileController {
 	public void getFile(@PathVariable("fileId") String fileId,
 			HttpServletResponse response) throws Exception {
 		
-		String filePath = fileService.PATH_PREFIX + fileId;
+		String filePath = FileService.PATH_PREFIX + fileId;
 		File file = new File(filePath);
 		FileInputStream fis = new FileInputStream(file);
 		
 		Map fileInfo = fileService.get(fileId);
-		
-		response.setContentType((String) fileInfo.get("image/jpeg"));
-		response.setContentLength(107178);
+				
+		response.setContentType((String) fileInfo.get("file_type"));
+		response.setContentLengthLong((Long) fileInfo.get("file_size"));
 
 		BufferedInputStream bis = IOUtils.buffer(fis);
-		
+
 		// 메모리 용량보다 더 큰 파일크기를 전달할 수 없으니, 조금씩 넘겨주는 방식으로 처리해야 한다.
 		// 4096byte만큼 계속 읽으면서 쏴주는 것
 		// 4096byte보다 작게 남으면 작은 것들을 쏴줘라.
@@ -48,6 +46,9 @@ public class FileController {
 			
 			response.getOutputStream().write(buffer, 0, length);
 		}
+		
+		bis.close();
+		fis.close();
 		
 		response.flushBuffer();
 	}

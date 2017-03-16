@@ -14,19 +14,26 @@ import com.hanbit.hp.util.KeyUtils;
 
 @Service
 public class FileService {
-	
+
 	public static final String PATH_PREFIX = "/hanbit/upload/";
-	
+
 	@Autowired
 	private FileDAO fileDAO;
 	
 	@Transactional
-	public String addAndSave(String fileId, MultipartFile multipartFile) {
-		String filePath = PATH_PREFIX + fileId;
-		File file = new File(filePath);
+	public void updateAndSave(String fileId, MultipartFile multipartFile) {
+		delete(fileId);
 		
+		addAndSave(fileId, multipartFile);
+	}
+	
+	@Transactional
+	public String addAndSave(String fileId, MultipartFile multipartFile) {
 		fileId = add(fileId, multipartFile.getContentType(), multipartFile.getSize(),
 				multipartFile.getOriginalFilename());
+		
+		String filePath = PATH_PREFIX + fileId;
+		File file = new File(filePath);
 		
 		try {
 			FileUtils.writeByteArrayToFile(file, multipartFile.getBytes());
@@ -36,10 +43,6 @@ public class FileService {
 		}
 		
 		return fileId;
-	}
-	
-	private String add(String fileType, long fileSize, String fileName) {
-		return add(null, fileType, fileSize, fileName);
 	}
 	
 	private String add(String fileId, String fileType, long fileSize, String fileName) {
@@ -52,7 +55,24 @@ public class FileService {
 		return fileId;
 	}
 	
+	@Transactional
+	public void delete(String fileId) {
+		fileDAO.delete(fileId);
+		
+		String filePath = PATH_PREFIX + fileId;
+		File file = new File(filePath);
+		
+		try {
+			FileUtils.forceDelete(file);
+		}
+		catch(Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 	public Map get(String fileId) {
 		return fileDAO.selectOne(fileId);
 	}
+	
 }
+

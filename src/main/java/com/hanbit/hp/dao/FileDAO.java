@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class FileDAO {
-	
+
 	@Autowired
 	private SqlSession sqlSession;
 	
@@ -26,5 +26,9 @@ public class FileDAO {
 	public Map selectOne(String fileId) {
 		return sqlSession.selectOne("file.selectOne", fileId);
 	}
-
+	
+	public int delete(String fileId) {
+		return sqlSession.delete("file.delete", fileId);
+	}
+	
 }

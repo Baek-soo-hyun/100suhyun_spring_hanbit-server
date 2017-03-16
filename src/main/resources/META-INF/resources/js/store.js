@@ -4,9 +4,39 @@ require([
 	var common = require("common");
 	
 	var currentStore = {};
-	var rowsPerPage = 2;
-	var pagesPerPaging = 3;
+	var rowsPerPage = 5;
+	var pagesPerPaging = 5;
 	var currentPage = 1;
+	
+	function getCode(codeType, sectionType) {
+		$.ajax({
+			url: "/admin/api/" + codeType + "/list",
+			success: function(list) {
+				var itemsHTML = "";
+				
+				for (var i=0; i<list.length; i++) {
+					var item = list[i];
+					
+					itemsHTML += "<li><a href='#' item-id='";
+					itemsHTML += item[codeType + "_id"] + "'>";
+					itemsHTML += item[codeType + "_name"];
+					itemsHTML += "</a></li>";
+				}
+				
+				$("#" + sectionType + "-" + codeType).html(itemsHTML);
+				
+				$("#" + sectionType + "-" + codeType + " a").on("click", function(event) {
+					event.preventDefault();
+					
+					var codeName = $(this).text();
+					$("#btn-txt-" + sectionType + "-" + codeType).text(codeName);
+					
+					var codeId = $(this).attr("item-id");
+					currentStore[codeType + "Id"] = codeId;
+				});
+			},
+		});
+	}
 	
 	var handler = function(section, jqElement) {
 		if (section === ".admin-list") {
@@ -17,62 +47,34 @@ require([
 			$("#add-store_img").val("");
 			$(".btn-admin-file").text("파일 선택");
 			currentStore = {};
-			$("#btn-txt-category").text("카테고리 선택");
-			$("#btn-txt-location").text("지역 선택");
+			$("#btn-txt-add-category").text("카테고리 선택");
+			$("#btn-txt-add-location").text("지역 선택");
+			
+			getCode("category", "add");
+			getCode("location", "add");
+		}
+		else if (section === ".admin-update") {
+			getCode("category", "upt");
+			getCode("location", "upt");
+			
+			var storeId = jqElement.attr("store-id");
 			
 			$.ajax({
-				url: "/admin/api/category/list",
-				success: function(list) {
-					var itemsHTML = "";
+				url: "/admin/api/store/" + storeId,
+				success: function(store) {
+					$("#upt-store_id").val(store.store_id);
+					$("#upt-store_name").val(store.store_name);
 					
-					for (var i=0; i<list.length; i++) {
-						var item = list[i];
-						
-						itemsHTML += "<li><a href='#' item-id='";
-						itemsHTML += item.category_id + "'>";
-						itemsHTML += item.category_name;
-						itemsHTML += "</a></li>";
-					}
+					$("#upt-store_img").val("");
+					$(".btn-admin-file").html("<img src='" + store.store_img +
+							"?ts=" + Date.now() + "'>");
 					
-					$("#add-category").html(itemsHTML);
-					
-					$("#add-category a").on("click", function(event) {
-						event.preventDefault();
-						
-						var categoryName = $(this).text();
-						$("#btn-txt-category").text(categoryName);
-						
-						var categoryId = $(this).attr("item-id");
-						currentStore.categoryId = categoryId;
-					});
-				},
-			});
-			
-			$.ajax({
-				url: "/admin/api/location/list",
-				success: function(list) {
-					var itemsHTML = "";
-					
-					for (var i=0; i<list.length; i++) {
-						var item = list[i];
-						
-						itemsHTML += "<li><a href='#' item-id='";
-						itemsHTML += item.location_id + "'>";
-						itemsHTML += item.location_name;
-						itemsHTML += "</a></li>";
-					}
-					
-					$("#add-location").html(itemsHTML);
-					
-					$("#add-location a").on("click", function(event) {
-						event.preventDefault();
-						
-						var locationName = $(this).text();
-						$("#btn-txt-location").text(locationName);
-						
-						var locationId = $(this).attr("item-id");
-						currentStore.locationId = locationId;
-					});
+					currentStore = {
+						categoryId: store.category_id,
+						locationId: store.location_id,
+					};
+					$("#btn-txt-upt-category").text(store.category_name);
+					$("#btn-txt-upt-location").text(store.location_name);
 				},
 			});
 		}
@@ -92,12 +94,13 @@ require([
 				var count = result.count;
 				
 				var itemHTML = "";
+				var storeNo = (currentPage - 1) * rowsPerPage;
 				
 				for (var i=0; i<list.length; i++) {
 					var item = list[i];
 					
-					itemHTML += "<tr category-id='" + item.store_id + "'>";
-					itemHTML += "<td>" + (i+1) + "</td>";
+					itemHTML += "<tr store-id='" + item.store_id + "'>";
+					itemHTML += "<td>" + (++storeNo) + "</td>";
 					itemHTML += "<td>" + item.category_name + "</td>";
 					itemHTML += "<td>" + item.location_name + "</td>";
 					itemHTML += "<td>" + item.store_name + "</td>";
@@ -107,7 +110,7 @@ require([
 				
 				$(".admin-list table>tbody").html(itemHTML);
 				$(".admin-list table>tbody>tr").on("click", function() {
-					// common.showSection(".admin-update", $(this), handler);
+					common.showSection(".admin-update", $(this), handler);
 				});
 				
 				// for Paging
@@ -159,6 +162,43 @@ require([
 		});
 	}
 	
+	$(".btn-admin-update").on("click", function() {
+		var storeId = $("#upt-store_id").val();
+		var storeName = $("#upt-store_name").val().trim();
+		var storeImg = $("#upt-store_img").val();
+
+		if (storeName === "") {
+			alert("맛집명을 입력하세요.");
+			$("#upt-store_name").focus();
+			return;
+		}
+		
+		var formData = new FormData();
+		formData.append("storeName", storeName);
+		formData.append("categoryId", currentStore.categoryId);
+		formData.append("locationId", currentStore.locationId);
+		
+		if (storeImg !== "") {
+			var files = $("#upt-store_img")[0].files;
+			
+			formData.append("storeImg", files[0]);
+		}
+		
+		$.ajax({
+			url: "/admin/api/store/" + storeId,
+			method: "POST",
+			data: formData,
+			processData: false,
+			contentType: false,
+			success: function() {
+				common.showSection(".admin-list", null, handler);
+			},
+			error: function() {
+				alert("수정에 실패했습니다.");
+			},
+		});
+	});
+	
 	$(".btn-admin-save").on("click", function() {
 		var storeName = $("#add-store_name").val().trim();
 		var storeImg = $("#add-store_img").val();
@@ -202,9 +242,8 @@ require([
 			error: function() {
 				alert("저장에 실패했습니다.");
 			},
-		})
+		});
 	});
 	
 	common.initMgmt(handler);
 });
-

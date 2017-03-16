@@ -1,24 +1,20 @@
-{{> admin/header}}
-<div class="admin-title">맛집 관리</div>
+{{> admin/header }}
+<div class="admin-title">맛집관리</div>
 <section class="admin-list">
-	<table class="table table-hover">
+	<table class="table table-striped table-hover table-condensed">
 		<thead>
 			<tr>
 				<th>번호</th>
 				<th>카테고리</th>
-				<th>맛집</th>
+				<th>지역</th>
 				<th>맛집명</th>
 				<th>평점</th>
 			</tr>
 		</thead>
 		<tbody>
-			
 		</tbody>
 	</table>
 	<ul class="admin-paging pagination">
-		<li>1</li>
-		<li>2</li>
-		<li>3</li>
 	</ul>
 	<div class="admin-buttons">
 		<button class="btn-admin-add btn btn-success">맛집 추가</button>
@@ -26,54 +22,81 @@
 </section>
 <section class="admin-add">
 	<div class="form-group">
-		<label for="add-store_name">맛집명</label>
-		<input type="text" class="form-control" id="add-store_name" placeholder="맛집명">
+    	<label for="add-store_name">맛집명</label>
+    	<input type="text" class="form-control" id="add-store_name" placeholder="맛집명">
 	</div>
 	<div class="form-group">
-		<label class="block" for="add-store_img">대표이미지</label>
-		<input type="file" class=hidden id="add-store_img" placeholder="대표이미지" multiple accept="image/*">
-		<button class="btn-admin-file btn btn-primary" for="add-store_img">파일 선택</button>
+    	<label class="block">대표이미지</label>
+    	<input type="file" id="add-store_img" class="hidden" placeholder="대표이미지" accept="image/*">
+    	<button class="btn-admin-file btn btn-primary" for="add-store_img">파일 선택</button>
 	</div>
 	<div class="form-group">
-		<label for="add-category_name" class="block">카테고리</label>
-		<div class="btn-group">
-		  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-		    <span id="btn-txt-category">카테고리 선택</span> <span class="caret"></span>
+    	<label class="block">카테고리</label>
+    	<div class="btn-group">
+		  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		    <span id="btn-txt-add-category">카테고리 선택</span>
+		    <span class="caret"></span>
 		  </button>
-		  <ul id="add-category" class="dropdown-menu" role="menu">
-		    
+		  <ul id="add-category" class="dropdown-menu">
 		  </ul>
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="add-location_name" class="block">지역</label>
-		<div class="btn-group">
-		  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-		    <span id="btn-txt-location">지역 선택</span> <span class="caret"></span>
+    	<label class="block">지역</label>
+    	<div class="btn-group">
+		  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		    <span id="btn-txt-add-location">지역 선택</span>
+		    <span class="caret"></span>
 		  </button>
-		  <ul id="add-location" class="dropdown-menu" role="menu">
-		 
+		  <ul id="add-location" class="dropdown-menu">
 		  </ul>
 		</div>
 	</div>
 	<div class="admin-buttons">
 		<button class="btn-admin-save btn btn-success">저장</button>
 		<button class="btn-admin-cancel btn btn-default">취소</button>
-	</div>	
+	</div>
 </section>
 <section class="admin-update">
 	<div class="form-group">
-		<label for="upt-store_id">맛집ID</label>
-		<input type="text" class="form-control" id="upt-store_id" disabled>
+    	<label for="upt-store_id">맛집ID</label>
+    	<input type="text" class="form-control" id="upt-store_id" disabled>
 	</div>
 	<div class="form-group">
-		<label for="upt-store_name">맛집명</label>
-		<input type="text" class="form-control" id="upt-store_name" placeholder="맛집명">
+    	<label for="upt-store_name">맛집명</label>
+    	<input type="text" class="form-control" id="upt-store_name" placeholder="맛집명">
+	</div>
+	<div class="form-group">
+    	<label class="block">대표이미지</label>
+    	<input type="file" id="upt-store_img" class="hidden" placeholder="대표이미지" accept="image/*">
+    	<button class="btn-admin-file btn btn-primary" for="upt-store_img">파일 선택</button>
+	</div>
+	<div class="form-group">
+    	<label class="block">카테고리</label>
+    	<div class="btn-group">
+		  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		    <span id="btn-txt-upt-category">카테고리 선택</span>
+		    <span class="caret"></span>
+		  </button>
+		  <ul id="upt-category" class="dropdown-menu">
+		  </ul>
+		</div>
+	</div>
+	<div class="form-group">
+    	<label class="block">지역</label>
+    	<div class="btn-group">
+		  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		    <span id="btn-txt-upt-location">지역 선택</span>
+		    <span class="caret"></span>
+		  </button>
+		  <ul id="upt-location" class="dropdown-menu">
+		  </ul>
+		</div>
 	</div>
 	<div class="admin-buttons">
 		<button class="btn-admin-update btn btn-success">수정</button>
 		<button class="btn-admin-delete btn btn-danger">삭제</button>
 		<button class="btn-admin-cancel btn btn-default">취소</button>
-	</div>	
+	</div>
 </section>
-{{> admin/footer}}
+{{> admin/footer }}

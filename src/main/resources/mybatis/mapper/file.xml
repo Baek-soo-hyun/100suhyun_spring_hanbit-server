@@ -11,7 +11,12 @@
 			(#{fileId}, #{fileType}, #{fileSize}, #{fileName})
 	</insert>
 	
-	<select id="selectOne" parameterType="String" resultType="map">
+	<delete id="delete" parameterType="string">
+		DELETE FROM tbl_file
+		 WHERE file_id = #{fileId}
+	</delete>
+	
+	<select id="selectOne" parameterType="string" resultType="map">
 		SELECT file_id, file_type, file_size, file_name
 		  FROM tbl_file
 		 WHERE file_id = #{fileId}
