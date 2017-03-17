@@ -51,13 +51,17 @@ public class StoreService {
 	// @Transactional => 에러가 발생했을 때, 에러 발생한 그 데이터를 DB에 저장하지 않게 롤백해준다.
 	@Transactional
 	public int add(String storeName,
-			String categoryId, String locationId,
+			String categoryId, String locationId, Map storeDetail,
 			MultipartFile storeImgFile) {
 		
 		String storeId = KeyUtils.generateKey("STO");
 		String storeImg = "/api2/file/" + storeId;	
 		
 		int result = storeDAO.insert(storeId, storeName, storeImg, categoryId, locationId);
+		
+		storeDetail.put("storeId", storeId);
+		
+		storeDAO.insertDetail(storeDetail);
 		
 		fileService.addAndSave(storeId, storeImgFile);
 		

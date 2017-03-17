@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="store">
+ 
+ 	<select id="selectList" parameterType="map" resultType="map">
+		SELECT store_id id, 
+			   store_name name, 
+			   store_img img, 
+			   store_score score,
+			   category_name category,
+			   location_name location
+		  FROM (
+			SELECT store_id, store_name, store_img, store_score,
+				   category_id, location_id
+			  FROM tbl_store
+			 ORDER BY store_name
+			 LIMIT #{firstIndex}, #{rowsPerPage}) s, tbl_category c, tbl_location l
+		 WHERE s.category_id = c.category_id
+		   AND s.location_id = l.location_id
+		 ORDER BY store_name
+ 	</select>
+ 	
+ 	<select id="count" resultType="int">
+		SELECT COUNT(store_id)
+		  FROM tbl_store
+ 	</select>
+	
+ 	<select id="selectOne" parameterType="string" resultType="map">
+		SELECT store_id, store_name, store_img,
+			   s.category_id, category_name, s.location_id, location_name
+		  FROM tbl_store s, tbl_category c, tbl_location l
+		 WHERE store_id = #{storeId}
+		   AND s.category_id = c.category_id
+		   AND s.location_id = l.location_id
+ 	</select>
+  
+</mapper>

@@ -52,6 +52,7 @@ public class StoreController {
 		String storeName = request.getParameter("storeName");
 		String categoryId = request.getParameter("categoryId");
 		String locationId = request.getParameter("locationId");
+
 		
 		MultipartFile storeImgFile = request.getFile("storeImg");
 		LOGGER.debug("fileName : " + storeImgFile.getOriginalFilename());
@@ -68,10 +69,18 @@ public class StoreController {
 		String storeName = request.getParameter("storeName");
 		String categoryId = request.getParameter("categoryId");
 		String locationId = request.getParameter("locationId");
+		String storeAddr = request.getParameter("storeAddr");
+		float storeLat = Float.parseFloat(request.getParameter("storeLat"));
+		float storeLng = Float.parseFloat(request.getParameter("storeLng"));
+		
+		Map storeDetail = new HashMap();
+		storeDetail.put("storeAddr", storeAddr);
+		storeDetail.put("storeLat", storeLat);
+		storeDetail.put("storeLng", storeLng);
 		
 		MultipartFile storeImgFile = request.getFile("storeImg");
 		
-		storeService.add(storeName, categoryId, locationId, storeImgFile);
+		storeService.add(storeName, categoryId, locationId, storeDetail, storeImgFile);
 		
 		Map result = new HashMap();
 		result.put("result", "ok");

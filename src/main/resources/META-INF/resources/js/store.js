@@ -162,6 +162,36 @@ require([
 		});
 	}
 	
+	// 주소 검색 api 추가 (검색 버튼 클릭시, 팝업창 오픈)//
+	// "/admin/juso" : 해당 경로의 파일을 읽어옴 //
+
+	$(".btn-addr").on("click", function() {
+		var jusoPop = window.open("/admin/juso#ready","jusopop","width=570,height=420, scrollbars=yes");
+		
+		var addrInput = $("#" + $(this).attr("for"));
+		
+		window.jusoCallback = function(addr, geoInfo) {
+			console.log(geoInfo.results[0].geometry.location);
+			addrInput.val(addr);
+			
+			currentStore.storeAddr = addr;
+			currentStore.storeLat = geoInfo.results[0].geometry.location.lat;
+			currentStore.storeLng = geoInfo.results[0].geometry.location.lng;
+			
+			// 위도&경도로 지도 가져오기
+			var mapImageSrc = "https://maps.googleapis.com/maps/api/staticmap" +
+				"?center=" + currentStore.storeLat + "," + currentStore.storeLng +
+				"&markers=color:red|" + currentStore.storeLat + "," + currentStore.storeLng +
+				"&zoom=16" +
+				"&size=300x300" +
+				"&key=AIzaSyBMsKoO3fXt5FIiSZikmyWuLrHz2-LSqfA";
+			
+			addrInput.parent("div").find("img").remove();
+			addrInput.parent("div").append("<img src='" + mapImageSrc + "'>");
+			
+		};
+	});
+	
 	$(".btn-admin-update").on("click", function() {
 		var storeId = $("#upt-store_id").val();
 		var storeName = $("#upt-store_name").val().trim();
@@ -212,6 +242,10 @@ require([
 			alert("대표이미지를 선택하세요.");
 			return;
 		}
+		else if (!currentStore.storeAddr) {
+			alert("주소를 입력하세요.");
+			return;
+		}
 		else if (!currentStore.categoryId) {
 			alert("카테고리를 선택하세요.");
 			return;
@@ -223,6 +257,9 @@ require([
 		
 		var formData = new FormData();
 		formData.append("storeName", storeName);
+		formData.append("storeAddr", currentStore.storeAddr);
+		formData.append("storeLat", currentStore.storeLat);
+		formData.append("storeLng", currentStore.storeLng);
 		formData.append("categoryId", currentStore.categoryId);
 		formData.append("locationId", currentStore.locationId);
 		

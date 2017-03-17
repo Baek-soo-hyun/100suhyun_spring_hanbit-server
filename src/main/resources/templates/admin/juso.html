@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form id="hp-juso" action="http://www.juso.go.kr/addrlink/addrLinkUrl.do" method="post">
+	<input type="hidden" name="confmKey" value="U01TX0FVVEgyMDE3MDMxNzExMjkwMzE5Nzg2">
+	<input type="hidden" name="returnUrl" value="http://203.236.209.173:8780/admin/juso">
+	<input type="hidden" name="resultType" value="1">
+</form>
+<script>
+if (location.hash === "#ready") {
+	document.querySelector("#hp-juso").submit();	
+}
+else {
+	var geoInfo = {};
+	
+	{{#geoInfo}}
+	geoInfo = {{{.}}};
+	console.log(geoInfo);
+	{{/geoInfo}}
+	
+	opener.jusoCallback("{{#roadFullAddr}}{{.}}{{/roadFullAddr}}", geoInfo);
+	window.close();
+}
+</script>
+</body>
+</html>

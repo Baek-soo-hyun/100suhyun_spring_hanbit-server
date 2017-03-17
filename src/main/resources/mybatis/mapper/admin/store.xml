@@ -48,5 +48,16 @@
 			(#{storeId}, #{storeName}, #{storeImg},
 			 0.0, #{categoryId}, #{locationId})
 	</insert>
+	
+	<insert id="insertDetail" parameterType="map">
+		INSERT INTO tbl_store_detail
+			(store_id, store_addr, store_lat, store_lng,
+			store_tel, store_price, store_parking,
+			store_time, store_break, store_holiday, store_website)
+		VALUES
+			(#{storeId}, #{storeAddr}, #{storeLat}, #{storeLng},
+			#{storeTel}, #{storePrice}, #{storeParking},
+			#{storeTime}, #{storeBreak}, #{storeHoliday}, #{toreWebsite})
+	</insert>
   
 </mapper>
