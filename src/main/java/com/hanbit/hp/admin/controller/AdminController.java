@@ -25,9 +25,11 @@ public class AdminController {
 	
 	@Autowired
 	public RestTemplate restTemplate;
+	// Spring 컴포넌트 내부에서 GET, POST, PUT, PATCH, DELETE REST 요청을 처리하는 방법 //
 	// rest 형식의 응답이 오면 자바에서 처리할 수 있게 해줌 //
 
 	// preFixed 된 path 뒤에 다음 path명이 붙으면 아래 함수가 실행됨
+	// model : 뷰에 전달되는 모델 데이터
 	@RequestMapping("")
 	public String main(Model model) {
 		model.addAttribute("cssName", "main");

@@ -104,3 +104,8 @@ section {
 .admin-buttons {
 	text-align: right;
 }
+
+.form-group label[required]::after {
+	content: "*";
+	color: #f00;
+}

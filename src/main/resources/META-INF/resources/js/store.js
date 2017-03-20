@@ -47,6 +47,8 @@ require([
 			$("#add-store_img").val("");
 			$(".btn-admin-file").text("파일 선택");
 			currentStore = {};
+			$("#add-store_addr").val("");
+			$("#add-store_addr").parent("div").find("img").remove();
 			$("#btn-txt-add-category").text("카테고리 선택");
 			$("#btn-txt-add-location").text("지역 선택");
 			
@@ -192,6 +194,16 @@ require([
 		};
 	});
 	
+	$(".store_holiday-weekdays>button").on("click", function() {
+		$(".store_holiday-no>button").removeClass("active");
+		$(this).toggleClass("active");
+	});
+	
+	$(".store_holiday-no>button").on("click", function() {
+		$(".store_holiday-weekdays>button").removeClass("active");
+		$(this).addClass("active");
+	});
+	
 	$(".btn-admin-update").on("click", function() {
 		var storeId = $("#upt-store_id").val();
 		var storeName = $("#upt-store_name").val().trim();
@@ -232,6 +244,13 @@ require([
 	$(".btn-admin-save").on("click", function() {
 		var storeName = $("#add-store_name").val().trim();
 		var storeImg = $("#add-store_img").val();
+		var branchName = $("#add-branch_name").val().trim();
+		var storeTel = $("#add-store_tel").val().trim();
+		var storePrice = $("#add-store_price").val().trim();
+		var storeParking = $("#add-store_parking").val().trim();
+		var storeTime = $("#add-store_time").val().trim();
+		var storeBreak = $("#add-store_break").val().trim();
+		var storeWebsite = $("#add-store_website").val().trim();
 		
 		if (storeName === "") {
 			alert("맛집명을 입력하세요.");
@@ -262,6 +281,28 @@ require([
 		formData.append("storeLng", currentStore.storeLng);
 		formData.append("categoryId", currentStore.categoryId);
 		formData.append("locationId", currentStore.locationId);
+		formData.append("storeTel", storeTel);
+		formData.append("storePrice", storePrice);
+		formData.append("storeParking", storeParking);
+		formData.append("storeTime", storeTime);
+		formData.append("storeBreak", storeBreak);
+		formData.append("storeHoliday", storeHoliday);
+		formData.append("storeWebsite", storeWebsite);
+		
+		var storeHoliday = "";
+		
+		if ($(".store_holiday-no>button").hasClass("active")) {
+			storeHoliday = "no";
+		}
+		else {
+			var holidays = $(".store_holiday-weekdays>button".active);
+			
+			for (var i= 0; i<holidays.length; i++) {
+				storeHoliday += $(holidays[i]).attr("day") + "|";
+ 			}
+		}
+		
+		formData.append("storeHoliday", storeHoliday);
 		
 		var files = $("#add-store_img")[0].files;
 		

@@ -24,11 +24,24 @@
  	</select>
 	
  	<select id="selectOne" parameterType="string" resultType="map">
-		SELECT store_id, store_name, store_img,
-			   s.category_id, category_name, s.location_id, location_name
-		  FROM tbl_store s, tbl_category c, tbl_location l
-		 WHERE store_id = #{storeId}
-		   AND s.category_id = c.category_id
+		SELECT store_id, store_name, branch_name, store_img,
+			   category_name, location_name,
+			   store_addr, store_lat, store_lng,
+			   store_tel, store_price, store_parking,
+			   store_time, store_break, store_holiday,
+			   store_website
+		  FROM (
+			SELECT s.store_id, store_name, branch_name, store_img,
+				   category_id, location_id,
+				   store_addr, store_lat, store_lng,
+				   store_tel, store_price, store_parking,
+				   store_time, store_break, store_holiday,
+				   store_website
+			  FROM tbl_store s, tbl_store_detail d
+			 WHERE s.store_id = d.store_id
+			   AND s.store_id = #{storeId}) s,
+		     tbl_category c, tbl_location l
+		 WHERE s.category_id = c.category_id
 		   AND s.location_id = l.location_id
  	</select>
  	
@@ -48,16 +61,18 @@
 			(#{storeId}, #{storeName}, #{storeImg},
 			 0.0, #{categoryId}, #{locationId})
 	</insert>
-	
+  
 	<insert id="insertDetail" parameterType="map">
 		INSERT INTO tbl_store_detail
-			(store_id, store_addr, store_lat, store_lng,
+			(store_id, branch_name, store_addr, store_lat, store_lng,
 			store_tel, store_price, store_parking,
 			store_time, store_break, store_holiday, store_website)
 		VALUES
-			(#{storeId}, #{storeAddr}, #{storeLat}, #{storeLng},
+			(#{storeId}, #{branchName}, #{storeAddr}, #{storeLat}, #{storeLng},
 			#{storeTel}, #{storePrice}, #{storeParking},
-			#{storeTime}, #{storeBreak}, #{storeHoliday}, #{toreWebsite})
+			#{storeTime}, #{storeBreak}, #{storeHoliday}, #{storeWebsite})
 	</insert>
   
 </mapper>
+
+
