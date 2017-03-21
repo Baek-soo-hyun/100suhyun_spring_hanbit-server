@@ -42,6 +42,18 @@ public class StoreDAO {
 		return sqlSession.insert("admin.store.update", param);
 	}
 	
+	public int updateDetail(Map storeDetail) {
+		return sqlSession.update("admin.store.updateDetail", storeDetail);
+	}
+	
+	public int delete(String storeId) {
+		return sqlSession.delete("admin.store.delete", storeId);
+	}
+	
+	public int deleteDetail(String storeId) {
+		return sqlSession.delete("admin.store.deleteDetail", storeId);
+	}
+	
 	public int insert(String storeId, String storeName,
 			String storeImg, String categoryId, String locationId) {
 		

@@ -71,7 +71,7 @@
 	</div>
 	<div class="form-group">
     	<label for="add-store_parking">주차</label>
-    	<input type="text" class="form-control" id="add-store_parking" placeholder="전주차화번호">
+    	<input type="text" class="form-control" id="add-store_parking" placeholder="주차">
 	</div>
 	<div class="form-group">
     	<label for="add-store_time">운영시간</label>
@@ -116,10 +116,19 @@
     	<label for="upt-store_name">맛집명</label>
     	<input type="text" class="form-control" id="upt-store_name" placeholder="맛집명">
 	</div>
+		<div class="form-group">
+    	<label for="upt-branch_name">지점명</label>
+    	<input type="text" class="form-control" id="upt-branch_name" placeholder="지점명">
+	</div>
 	<div class="form-group">
     	<label class="block">대표이미지</label>
     	<input type="file" id="upt-store_img" class="hidden" placeholder="대표이미지" accept="image/*">
     	<button class="btn-admin-file btn btn-primary" for="upt-store_img">파일 선택</button>
+	</div>
+	<div class="form-group">
+    	<label for="upt-store_addr" required>주소</label>
+    	<button class="btn-addr btn btn-info btn-xs" for="upt-store_addr">주소입력</button>
+    	<input type="text" class="form-control" id="upt-store_addr" placeholder="주소" disabled>
 	</div>
 	<div class="form-group">
     	<label class="block">카테고리</label>
@@ -142,6 +151,47 @@
 		  <ul id="upt-location" class="dropdown-menu">
 		  </ul>
 		</div>
+	</div>
+	<div class="form-group">
+    	<label for="upt-store_tel">전화번호</label>
+    	<input type="text" class="form-control" id="upt-store_tel" placeholder="전화번호">
+	</div>
+	<div class="form-group">
+    	<label for="upt-store_price">가격대</label>
+    	<input type="text" class="form-control" id="upt-store_price" placeholder="가격대">
+	</div>
+	<div class="form-group">
+    	<label for="upt-store_parking">주차</label>
+    	<input type="text" class="form-control" id="upt-store_parking" placeholder="주차">
+	</div>
+	<div class="form-group">
+    	<label for="upt-store_time">운영시간</label>
+    	<input type="text" class="form-control" id="upt-store_time" placeholder="운영시간">
+	</div>
+	<div class="form-group">
+    	<label for="upt-store_break">쉬는시간</label>
+    	<input type="text" class="form-control" id="upt-store_break" placeholder="쉬는시간">
+	</div>
+	<div class="form-group">
+    	<label for="upt-store_holiday" class="block">휴일</label>
+    	<div class="btn-toolbar" role="toolbar">
+	    	<div class="store_holiday-weekdays btn-group" role="group">
+				<button day="sun" type="button" class="btn btn-default">일</button>
+				<button day="mon" type="button" class="btn btn-default">월</button>
+				<button day="tue" type="button" class="btn btn-default">화</button>
+				<button day="wed" type="button" class="btn btn-default">수</button>
+				<button day="thu" type="button" class="btn btn-default">목</button>
+				<button day="fri" type="button" class="btn btn-default">금</button>
+				<button day="sat" type="button" class="btn btn-default">토</button>
+			</div>
+	    	<div class="store_holiday-no btn-group" role="group">
+				<button type="button" class="btn btn-default">연중무휴</button>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+    	<label for="upt-store_website">웹사이트</label>
+    	<input type="text" class="form-control" id="upt-store_website" placeholder="웹사이트">
 	</div>
 	<div class="admin-buttons">
 		<button class="btn-admin-update btn btn-success">수정</button>

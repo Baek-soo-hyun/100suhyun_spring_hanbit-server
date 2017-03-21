@@ -25,7 +25,8 @@
 	
  	<select id="selectOne" parameterType="string" resultType="map">
 		SELECT store_id, store_name, branch_name, store_img,
-			   category_name, location_name,
+			   s.category_id, category_name,
+			   s.location_id, location_name,
 			   store_addr, store_lat, store_lng,
 			   store_tel, store_price, store_parking,
 			   store_time, store_break, store_holiday,
@@ -53,6 +54,32 @@
  		 WHERE store_id = #{storeId}
  	</update>
  	
+ 	<update id="updateDetail" parameterType="map">
+ 		UPDATE tbl_store_detail
+ 		   SET branch_name = #{branchName},
+ 		   	   store_addr = #{storeAddr},
+ 		   	   store_lat = #{storeLat},
+ 		   	   store_lng = #{storeLng},
+ 		   	   store_tel = #{storeTel},
+ 		   	   store_price = #{storePrice},
+ 		   	   store_parking = #{storeParking},
+ 		   	   store_time = #{storeTime},
+ 		   	   store_break = #{storeBreak},
+ 		   	   store_holiday = #{storeHoliday},
+ 		   	   store_website = #{storeWebsite}
+ 		 WHERE store_id = #{storeId}
+ 	</update>
+ 	
+ 	<delete id="delete" parameterType="string">
+ 		DELETE FROM tbl_store
+ 		 WHERE store_id = #{storeId}
+ 	</delete>
+ 	
+ 	<delete id="deleteDetail" parameterType="string">
+ 		DELETE FROM tbl_store_detail
+ 		 WHERE store_id = #{storeId}
+ 	</delete>
+ 	
 	<insert id="insert" parameterType="map">
 		INSERT INTO tbl_store
 			(store_id, store_name, store_img,
@@ -74,5 +101,3 @@
 	</insert>
   
 </mapper>
-
-

@@ -50,15 +50,49 @@ public class StoreController {
 			MultipartHttpServletRequest request) {
 		
 		String storeName = request.getParameter("storeName");
+		String branchName = request.getParameter("branchName");
 		String categoryId = request.getParameter("categoryId");
 		String locationId = request.getParameter("locationId");
-
+		String storeAddr = request.getParameter("storeAddr");
+		float storeLat = Float.parseFloat(request.getParameter("storeLat"));
+		float storeLng = Float.parseFloat(request.getParameter("storeLng"));
+		String storeTel = request.getParameter("storeTel");
+		String storePrice = request.getParameter("storePrice");
+		String storeParking = request.getParameter("storeParking");
+		String storeTime = request.getParameter("storeTime");
+		String storeBreak = request.getParameter("storeBreak");
+		String storeHoliday = request.getParameter("storeHoliday");
+		String storeWebsite = request.getParameter("storeWebsite");
+		
+		Map storeDetail = new HashMap();
+		storeDetail.put("storeId", storeId);
+		storeDetail.put("branchName", branchName);
+		storeDetail.put("storeAddr", storeAddr);
+		storeDetail.put("storeLat", storeLat);
+		storeDetail.put("storeLng", storeLng);
+		storeDetail.put("storeTel", storeTel);
+		storeDetail.put("storePrice", storePrice);
+		storeDetail.put("storeParking", storeParking);
+		storeDetail.put("storeTime", storeTime);
+		storeDetail.put("storeBreak", storeBreak);
+		storeDetail.put("storeHoliday", storeHoliday);
+		storeDetail.put("storeWebsite", storeWebsite);
 		
 		MultipartFile storeImgFile = request.getFile("storeImg");
-		LOGGER.debug("fileName : " + storeImgFile.getOriginalFilename());
-		LOGGER.debug("fileSize : " + storeImgFile.getSize());
 		
-		storeService.modify(storeId, storeName, categoryId, locationId, storeImgFile);
+		storeService.modify(storeId, storeName, categoryId, locationId, storeDetail,
+				storeImgFile);
+		
+		Map result = new HashMap();
+		result.put("result", "ok");
+		
+		return result;
+	}
+	
+	@RequestMapping(value="/{storeId}", method=RequestMethod.DELETE)
+	public Map remove(@PathVariable("storeId") String storeId) {
+		
+		storeService.remove(storeId);
 		
 		Map result = new HashMap();
 		result.put("result", "ok");
@@ -83,7 +117,6 @@ public class StoreController {
 		String storeHoliday = request.getParameter("storeHoliday");
 		String storeWebsite = request.getParameter("storeWebsite");
 		
-		
 		Map storeDetail = new HashMap();
 		storeDetail.put("branchName", branchName);
 		storeDetail.put("storeAddr", storeAddr);
@@ -99,7 +132,8 @@ public class StoreController {
 		
 		MultipartFile storeImgFile = request.getFile("storeImg");
 		
-		storeService.add(storeName, categoryId, locationId, storeDetail, storeImgFile);
+		storeService.add(storeName, categoryId, locationId, storeDetail, 
+				storeImgFile);
 		
 		Map result = new HashMap();
 		result.put("result", "ok");

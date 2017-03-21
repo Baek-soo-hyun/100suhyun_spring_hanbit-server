@@ -35,10 +35,12 @@ public class StoreService {
 	
 	@Transactional
 	public int modify(String storeId, String storeName,
-			String categoryId, String locationId,
+			String categoryId, String locationId, Map storeDetail,
 			MultipartFile storeImgFile) {
 		
 		int result = storeDAO.update(storeId, storeName, categoryId, locationId);
+		
+		storeDAO.updateDetail(storeDetail);
 		
 		if (storeImgFile != null) {
 			fileService.updateAndSave(storeId, storeImgFile);
@@ -46,7 +48,19 @@ public class StoreService {
 		
 		return result;
 	}
-
+	
+	@Transactional
+	public int remove(String storeId) {
+		// FK 때문에 먼저 지워야 한다. 지우는 순서가 중요하다.
+		storeDAO.deleteDetail(storeId);
+		
+		int result = storeDAO.delete(storeId);
+		
+		fileService.delete(storeId);
+		
+		return result;
+	}
+	
 	// 자동 rollback을 위해서 @Transactional을 걸어준다.
 	// @Transactional => 에러가 발생했을 때, 에러 발생한 그 데이터를 DB에 저장하지 않게 롤백해준다.
 	@Transactional
