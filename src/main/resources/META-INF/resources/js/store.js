@@ -8,12 +8,14 @@ require([
 	var pagesPerPaging = 5;
 	var currentPage = 1;
 	
+	// codeType = location||category , sectionType = add||update //
 	function getCode(codeType, sectionType) {
 		$.ajax({
 			url: "/admin/api/" + codeType + "/list",
 			success: function(list) {
 				var itemsHTML = "";
 				
+				//select layer HTML 생성
 				for (var i=0; i<list.length; i++) {
 					var item = list[i];
 					
@@ -23,8 +25,10 @@ require([
 					itemsHTML += "</a></li>";
 				}
 				
+				// append HTML
 				$("#" + sectionType + "-" + codeType).html(itemsHTML);
 				
+				// li 클릭시, 클릭 정보를 currentStore 리스트에 저장
 				$("#" + sectionType + "-" + codeType + " a").on("click", function(event) {
 					event.preventDefault();
 					
@@ -78,8 +82,10 @@ require([
 									
 					
 					$("#upt-store_img").val("");
+					// store.store_img : /api2/file/store_id => FileController에서 getFile 사용
 					$(".btn-admin-file").html("<img src='" + store.store_img +
 							"?ts=" + Date.now() + "'>");
+					// Date.now() -> 동일한 파일명을 가졌으면, 날짜로 구분해주기 위해서
 					
 					$("#upt-store_addr").val(store.store_addr);
 					
@@ -164,12 +170,14 @@ require([
 				var firstPage = 1;
 				var lastPage = parseInt(count / rowsPerPage)
 					+ (count % rowsPerPage === 0 ? 0 : 1);
+				// count : DB에 저장된 총 store 개수
 				
 				var pagingHTML = "";
 				
 				pagingHTML += "<li page='" + firstPage + "'>";
 				pagingHTML += "<a href='#'><i class='fa fa-fw fa-fast-backward'></i></a></li>";
 				
+				//하단 paging step에 시작&끝 페이지 구하기
 				var startPage = parseInt((currentPage-1) / pagesPerPaging)
 					* pagesPerPaging + 1;
 				var endPage = Math.min(startPage + (pagesPerPaging - 1), lastPage);
@@ -217,15 +225,18 @@ require([
 		
 		var addrInput = $("#" + $(this).attr("for"));
 		
+		
+		//jusoCallback 함수(currentStore에 현재 store의 위치 정보 담기) 만들기
 		window.jusoCallback = function(addr, geoInfo) {
 			console.log(geoInfo.results[0].geometry.location);
+			console.log("geoInfo : " + geoInfo);
 			addrInput.val(addr);
 			
 			currentStore.storeAddr = addr;
 			currentStore.storeLat = geoInfo.results[0].geometry.location.lat;
 			currentStore.storeLng = geoInfo.results[0].geometry.location.lng;
 			
-			// 위도&경도로 지도 가져오기
+			// 위도&경도로 지도(맵 img) 가져오기
 			var mapImageSrc = "https://maps.googleapis.com/maps/api/staticmap" +
 				"?center=" + currentStore.storeLat + "," + currentStore.storeLng +
 				"&markers=color:red|" + currentStore.storeLat + "," + currentStore.storeLng +
@@ -302,6 +313,7 @@ require([
 		}
 		
 		formData.append("storeHoliday", storeHoliday);
+		
 		$.ajax({
 			url: "/admin/api/store/" + storeId,
 			method: "POST",
@@ -400,10 +412,10 @@ require([
 	});
 	
 	$(".btn-admin-delete").on("click", function() {
-		var categoryId = $("#upt-store_id").val();
+		var storeId = $("#upt-store_id").val();
 		
 		$.ajax({
-			url: "/admin/api/store/" + categoryId,
+			url: "/admin/api/store/" + storeId,
 			method: "DELETE",
 			success: function() {
 				common.showSection(".admin-list", null, handler);

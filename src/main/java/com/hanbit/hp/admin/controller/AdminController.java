@@ -27,6 +27,7 @@ public class AdminController {
 	public RestTemplate restTemplate;
 	// Spring 컴포넌트 내부에서 GET, POST, PUT, PATCH, DELETE REST 요청을 처리하는 방법 //
 	// rest 형식의 응답이 오면 자바에서 처리할 수 있게 해줌 //
+	// webApplicationConfig 파일에서 설정을 추가해줘야 사용 가능
 
 	// preFixed 된 path 뒤에 다음 path명이 붙으면 아래 함수가 실행됨
 	// model : 뷰에 전달되는 모델 데이터
@@ -52,7 +53,7 @@ public class AdminController {
 		return "admin/" + menuId;
 	}
 	
-	//주소 검색
+	//주소로 구글맵 이용하여 위도&경도 정보 가져오기
 	@RequestMapping("/juso")
 	public String juso(HttpServletRequest request, Model model) {
 		Enumeration<String> paramNames = request.getParameterNames();
@@ -61,6 +62,7 @@ public class AdminController {
 			String paramName = paramNames.nextElement();
 			String paramValue = request.getParameter(paramName);
 			
+			LOGGER.debug("request : " + request);
 			LOGGER.debug(paramName + " : " + paramValue);
 			
 			// 클라이언트에 넘기기위해 model에 담아서 정보들을 모두 넘김
@@ -83,7 +85,7 @@ public class AdminController {
 				// String.class => 받는 형식
 				
 				model.addAttribute("geoInfo", geoInfo);
-			
+							
 			}
 		}
 		
