@@ -22,4 +22,17 @@ public class StoreDAO {
 		return sqlSession.selectList("store.selectList", param);
 	}
 	
+	public int countSearch(String keyword) {
+		return sqlSession.selectOne("store.countSearch", keyword);
+	}
+	
+	public List selectSearch(String keyword, int page, int rowsPerPage) {
+		Map param = new HashMap();
+		param.put("keyword", keyword);
+		param.put("firstIndex", (page - 1) * rowsPerPage);
+		param.put("rowsPerPage", rowsPerPage);
+		
+		return sqlSession.selectList("store.selectSearch", param);
+	}
+	
 }

@@ -17,5 +17,12 @@ public class StoreService {
 		return storeDAO.selectList(1, 8);
 	}
 	
+	public int countSearch(String keyword) {
+		return storeDAO.countSearch(keyword);
+	}
+	
+	public List search(String keyword, int page, int rowsPerPage) {
+		return storeDAO.selectSearch(keyword, page, rowsPerPage);
+	}
+	
 }
-

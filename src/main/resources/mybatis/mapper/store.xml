@@ -35,5 +35,45 @@
 		   AND s.category_id = c.category_id
 		   AND s.location_id = l.location_id
  	</select>
+ 	
+ 	<select id="countSearch" parameterType="string" resultType="int">
+		SELECT COUNT(store_id)
+		  FROM tbl_store
+		 WHERE store_name LIKE CONCAT('%', #{keyword}, '%')
+	        OR location_id IN (SELECT location_id
+								 FROM tbl_location
+							    WHERE location_name LIKE CONCAT('%', #{keyword}, '%'))
+	        OR category_id IN (SELECT category_id
+								 FROM tbl_category
+							    WHERE category_name LIKE CONCAT('%', #{keyword}, '%'))
+ 	</select>
+ 	
+ 	<select id="selectSearch" parameterType="map" resultType="map">
+		SELECT s.store_id id, 
+			   store_name name, 
+			   store_img img, 
+			   store_score score,
+			   category_name category,
+			   location_name location,
+		       store_lat lat, store_lng lng,
+		       view_cnt
+		  FROM (
+			SELECT store_id, store_name, store_img, store_score,
+				   category_id, location_id
+			  FROM tbl_store
+			 WHERE store_name LIKE CONCAT('%', #{keyword}, '%')
+		        OR location_id IN (SELECT location_id
+									 FROM tbl_location
+								    WHERE location_name LIKE CONCAT('%', #{keyword}, '%'))
+		        OR category_id IN (SELECT category_id
+									 FROM tbl_category
+								    WHERE category_name LIKE CONCAT('%', #{keyword}, '%'))
+			 ORDER BY store_name
+			 LIMIT #{firstIndex}, #{rowsPerPage}) s, tbl_category c, tbl_location l, tbl_store_detail d
+		 WHERE s.category_id = c.category_id
+		   AND s.location_id = l.location_id
+		   AND s.store_id = d.store_id
+		 ORDER BY store_name
+ 	</select>
   
 </mapper>
